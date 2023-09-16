@@ -1,0 +1,48 @@
+﻿@page "/converter"
+@using System.Text
+<PageTitle>Converter</PageTitle>
+
+<form>
+    <div class="form-group">
+        <label for="txtEncode">Base64 Decoded</label>
+        <textarea class="form-control" id="txtEncode" @bind-value:event="oninput"  @bind-value="NonEncoded" rows="3"></textarea>
+    </div>
+
+    <br/>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" @onclick="ConvertToBase64">
+            <span class="oi oi-arrow-thick-bottom"></span> Encode
+        </button>
+        <button type="button" class="btn btn-secondary" @onclick="ConvertFromBase64">
+            <span class="oi oi-arrow-thick-top"></span> Decode
+        </button>
+    </div>
+    <br/>
+    <div class="form-group">
+        <label for="txtDecode">Base64 Encoded</label>
+        <textarea class="form-control" id="txtDecode" @bind-value:event="oninput" @bind-value="Encoded" rows="3"></textarea>
+    </div>
+</form>
+
+@code {
+
+    private string? NonEncoded { get; set; }
+    private string? Encoded { get; set; }
+
+    private void ConvertToBase64()
+    {
+        if (!string.IsNullOrEmpty(NonEncoded))
+        {
+            Encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(NonEncoded));
+        }
+    }
+
+    private void ConvertFromBase64()
+    {
+        if (!string.IsNullOrEmpty(Encoded))
+        {
+            NonEncoded = Encoding.UTF8.GetString(Convert.FromBase64String(Encoded));
+        }
+    }
+
+}
